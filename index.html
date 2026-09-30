@@ -3,125 +3,438 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Location & Save</title>
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <title>BGMI Premium Sens Generator</title>
     <style>
-        body { margin: 0; font-family: sans-serif; }
-        #map { height: 100vh; width: 100%; }
-        #ui {
-            position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
-            z-index: 1000; background: white; padding: 15px; border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2); text-align: center; width: 300px;
+        /* --- CSS Variables for Premium Theme --- */
+        :root {
+            --bg-dark: #0b0b0b;
+            --card-bg: rgba(30, 30, 30, 0.6);
+            --primary-gold: #ffcc00;
+            --secondary-orange: #ff6600;
+            --text-white: #ffffff;
+            --text-gray: #aaaaaa;
+            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+            --shadow-glow: 0 0 15px rgba(255, 204, 0, 0.2);
         }
-        button {
-            background: #007bff; color: white; border: none; padding: 10px 20px;
-            border-radius: 5px; cursor: pointer; width: 100%; margin-top: 5px;
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        button#saveBtn { background: #28a745; }
-        #status { font-size: 12px; color: #666; margin-top: 5px; }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #0b0b0b 100%);
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* --- Main Container --- */
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: var(--glass-border);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* --- Header & Logo --- */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-svg {
+            width: 80px;
+            height: 80px;
+            fill: var(--primary-gold);
+            filter: drop-shadow(0 0 5px var(--secondary-orange));
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, var(--primary-gold), var(--secondary-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+        p.subtitle {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* --- Form Elements --- */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        select, input[type="checkbox"] {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid #333;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        select:focus {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 8px rgba(255, 204, 0, 0.3);
+        }
+
+        /* Custom Toggle Switch for Gyro */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #333;
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-gold);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* --- Generate Button --- */
+        .btn-generate {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--secondary-orange), var(--primary-gold));
+            border: none;
+            border-radius: 10px;
+            color: black;
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.4);
+        }
+
+        .btn-generate svg {
+            width: 20px;
+            height: 20px;
+            fill: black;
+        }
+
+        /* --- Results Section --- */
+        .results {
+            margin-top: 30px;
+            display: none; /* Hidden by default */
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid var(--primary-gold);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 0 8px 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sens-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .sens-value {
+            font-weight: bold;
+            color: var(--primary-gold);
+            font-size: 1.1rem;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .copy-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--text-gray);
+            transition: 0.2s;
+        }
+
+        .copy-btn:hover svg {
+            fill: var(--primary-gold);
+        }
+
+        /* --- Footer --- */
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #555;
+        }
     </style>
 </head>
 <body>
 
-    <div id="ui">
-        <h3>📍 Live Tracker</h3>
-        <button id="trackBtn">Start Tracking</button>
-        <button id="saveBtn">Save to Database</button>
-        <p id="status">Ready</p>
+<div class="container">
+    <!-- Header -->
+    <div class="header">
+        <!-- Custom SVG Logo: Shield/Badge style -->
+        <svg class="logo-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L3 7V12C3 17.55 6.84 22.74 12 24C17.16 22.74 21 17.55 21 12V7L12 2ZM12 11.99H7.5V10H12V7.5H14V10H18.5V11.99H12V19.5C8.5 18.25 5.5 14.5 5.5 12V8.5L12 5L18.5 8.5V12C18.5 14.5 15.5 18.25 12 19.5V11.99Z"/>
+        </svg>
+        <h1>BGMI Pro Sens</h1>
+        <p class="subtitle">Device Optimized • Premium Settings</p>
     </div>
 
-    <div id="map"></div>
+    <!-- Input Form -->
+    <div class="input-section">
+        <div class="form-group">
+            <label>Select Device Model</label>
+            <select id="deviceModel">
+                <option value="high_end">High End (iPhone 13+, ROG Phone, iPad)</option>
+                <option value="mid_range">Mid Range (Redmi Note Series, Poco X Series)</option>
+                <option value="budget">Budget (Realme C/Narzo, Redmi 9/10)</option>
+            </select>
+        </div>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <div class="form-group">
+            <label>Gyroscope Usage</label>
+            <div class="toggle-container">
+                <span>Gyro On</span>
+                <label class="switch">
+                    <input type="checkbox" id="gyroToggle" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
 
-    <!-- Firebase SDKs -->
-    <script type="module">
-        // 1. Firebase Imports
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, serverTimestamp } 
-        from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        <button class="btn-generate" onclick="generateSensitivity()">
+            <!-- Lightning Bolt Icon -->
+            <svg viewBox="0 0 24 24"><path d="M13 2L3 14H12V22L21 10H12V2H13Z"/></svg>
+            Generate Sensitivity
+        </button>
+    </div>
 
-        // 2. YOUR FIREBASE CONFIG (Ye Apne Project Ki Details Se Replace Karein)
-        const firebaseConfig = {
-            apiKey: "AIzaSyBxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-            authDomain: "your-project.firebaseapp.com",
-            projectId: "your-project-id",
-            storageBucket: "your-project.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:xxxxxxxxxxxxxxxx"
-        };
+    <!-- Results Display -->
+    <div class="results" id="resultsArea">
+        <h3 style="margin-bottom:15px; color:white;">Your Optimized Settings</h3>
+        
+        <!-- Camera Sensitivity -->
+        <div class="result-card">
+            <span class="sens-label">Camera (Free Look)</span>
+            <div>
+                <span class="sens-value" id="res-freeLook">--</span>
+                <button class="copy-btn" onclick="copyValue('res-freeLook')">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                </button>
+            </div>
+        </div>
 
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        <div class="result-card">
+            <span class="sens-label">Camera (No Scope)</span>
+            <div>
+                <span class="sens-value" id="res-noScope">--</span>
+                <button class="copy-btn" onclick="copyValue('res-noScope')">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                </button>
+            </div>
+        </div>
 
-        // Map Setup
-        const map = L.map('map').setView([20.5937, 78.9629], 5);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap'
-        }).addTo(map);
+        <!-- ADS Sensitivity -->
+        <div class="result-card">
+            <span class="sens-label">ADS (Red Dot)</span>
+            <div>
+                <span class="sens-value" id="res-redDot">--</span>
+                <button class="copy-btn" onclick="copyValue('res-redDot')">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                </button>
+            </div>
+        </div>
 
-        let currentLat = null;
-        let currentLng = null;
-        let watchId = null;
-        let marker = null;
+        <div class="result-card">
+            <span class="sens-label">ADS (2x Scope)</span>
+            <div>
+                <span class="sens-value" id="res-2x">--</span>
+                <button class="copy-btn" onclick="copyValue('res-2x')">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                </button>
+            </div>
+        </div>
 
-        // UI Elements
-        const trackBtn = document.getElementById('trackBtn');
-        const saveBtn = document.getElementById('saveBtn');
-        const status = document.getElementById('status');
+        <div class="result-card">
+            <span class="sens-label">ADS (4x Scope)</span>
+            <div>
+                <span class="sens-value" id="res-4x">--</span>
+                <button class="copy-btn" onclick="copyValue('res-4x')">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                </button>
+            </div>
+        </div>
 
-        // 3. Tracking Logic
-        trackBtn.addEventListener('click', () => {
-            if (!navigator.geolocation) {
-                status.textContent = "Geolocation not supported";
-                return;
-            }
-            status.textContent = "Tracking Started...";
-            
-            watchId = navigator.geolocation.watchPosition(
-                (position) => {
-                    currentLat = position.coords.latitude;
-                    currentLng = position.coords.longitude;
-                    status.textContent = `Lat: ${currentLat.toFixed(5)}, Lng: ${currentLng.toFixed(5)}`;
+        <!-- Gyro Sensitivity -->
+        <div class="result-card" id="gyroSection">
+            <span class="sens-label">Gyro (General)</span>
+            <div>
+                <span class="sens-value" id="res-gyroGen">--</span>
+                <button class="copy-btn" onclick="copyValue('res-gyroGen')">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                </button>
+            </div>
+        </div>
 
-                    if (marker) {
-                        marker.setLatLng([currentLat, currentLng]);
-                    } else {
-                        marker = L.marker([currentLat, currentLng]).addTo(map);
-                        map.setView([currentLat, currentLng], 15);
-                    }
-                },
-                (error) => {
-                    status.textContent = "Error: " + error.message;
-                },
-                { enableHighAccuracy: true }
-            );
+        <div class="result-card" id="gyroSection2">
+            <span class="sens-label">Gyro (Red Dot)</span>
+            <div>
+                <span class="sens-value" id="res-gyroRed">--</span>
+                <button class="copy-btn" onclick="copyValue('res-gyroRed')">
+                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Designed for BGMI Players • NoTrack AI
+    </div>
+</div>
+
+<script>
+    // Logic Database
+    const sensData = {
+        high_end: {
+            camera: { freeLook: 120, noScope: 60 },
+            ads: { redDot: 55, scope2x: 45, scope4x: 35 },
+            gyro: { general: 300, redDot: 300, scope2x: 250, scope4x: 150 }
+        },
+        mid_range: {
+            camera: { freeLook: 100, noScope: 50 },
+            ads: { redDot: 45, scope2x: 35, scope4x: 25 },
+            gyro: { general: 250, redDot: 250, scope2x: 200, scope4x: 120 }
+        },
+        budget: {
+            camera: { freeLook: 80, noScope: 40 },
+            ads: { redDot: 35, scope2x: 25, scope4x: 15 },
+            gyro: { general: 200, redDot: 200, scope2x: 150, scope4x: 100 }
+        }
+    };
+
+    function generateSensitivity() {
+        const device = document.getElementById('deviceModel').value;
+        const isGyro = document.getElementById('gyroToggle').checked;
+        
+        // Get Base Data
+        let data = sensData[device];
+        
+        // Update UI Values
+        document.getElementById('res-freeLook').innerText = data.camera.freeLook;
+        document.getElementById('res-noScope').innerText = data.camera.noScope;
+        document.getElementById('res-redDot').innerText = data.ads.redDot;
+        document.getElementById('res-2x').innerText = data.ads.scope2x;
+        document.getElementById('res-4x').innerText = data.ads.scope4x;
+        
+        // Handle Gyro Visibility
+        const gyroSec1 = document.getElementById('gyroSection');
+        const gyroSec2 = document.getElementById('gyroSection2');
+        
+        if(isGyro) {
+            gyroSec1.style.display = 'flex';
+            gyroSec2.style.display = 'flex';
+            document.getElementById('res-gyroGen').innerText = data.gyro.general;
+            document.getElementById('res-gyroRed').innerText = data.gyro.redDot;
+        } else {
+            gyroSec1.style.display = 'none';
+            gyroSec2.style.display = 'none';
+        }
+
+        // Show Results with Animation
+        const resultsArea = document.getElementById('resultsArea');
+        resultsArea.style.display = 'block';
+        
+        // Scroll to results
+        resultsArea.scrollIntoView({behavior: "smooth"});
+    }
+
+    function copyValue(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Copied: " + text);
         });
+    }
+</script>
 
-        // 4. Save to Firestore Logic
-        saveBtn.addEventListener('click', async () => {
-            if (currentLat === null) {
-                alert("Pehle Tracking Start karein!");
-                return;
-            }
-
-            try {
-                status.textContent = "Saving...";
-                await addDoc(collection(db, "live_locations"), {
-                    latitude: currentLat,
-                    longitude: currentLng,
-                    timestamp: serverTimestamp(),
-                    accuracy: "high" // Optional: accuracy level
-                });
-                status.textContent = "Saved Successfully! ✅";
-            } catch (e) {
-                console.error("Error adding document: ", e);
-                status.textContent = "Error: " + e.message;
-            }
-        });
-    </script>
 </body>
 </html>
