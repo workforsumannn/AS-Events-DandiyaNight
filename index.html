@@ -3,436 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BGMI Premium Sens Generator</title>
+    <title>BGMI Real Sensi Generator</title>
     <style>
-        /* --- CSS Variables for Premium Theme --- */
-        :root {
-            --bg-dark: #0b0b0b;
-            --card-bg: rgba(30, 30, 30, 0.6);
-            --primary-gold: #ffcc00;
-            --secondary-orange: #ff6600;
-            --text-white: #ffffff;
-            --text-gray: #aaaaaa;
-            --glass-border: 1px solid rgba(255, 255, 255, 0.1);
-            --shadow-glow: 0 0 15px rgba(255, 204, 0, 0.2);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
+        /* Modern Dark BGMI Theme */
         body {
-            background-color: var(--bg-dark);
-            background-image: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #0b0b0b 100%);
-            color: var(--text-white);
-            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            min-height: 100vh;
         }
 
-        /* --- Main Container --- */
         .container {
+            background-color: #1e1e1e;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 165, 0, 0.2);
             width: 100%;
             max-width: 450px;
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: var(--glass-border);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        /* --- Header & Logo --- */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .logo-svg {
-            width: 80px;
-            height: 80px;
-            fill: var(--primary-gold);
-            filter: drop-shadow(0 0 5px var(--secondary-orange));
-            margin-bottom: 10px;
+            border: 1px solid #333;
         }
 
         h1 {
-            font-size: 1.5rem;
+            text-align: center;
+            color: #ff9900;
+            margin-bottom: 20px;
+            font-size: 24px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            background: linear-gradient(to right, var(--primary-gold), var(--secondary-orange));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
         }
 
-        p.subtitle {
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            margin-top: 5px;
-        }
-
-        /* --- Form Elements --- */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         label {
             display: block;
             margin-bottom: 8px;
-            color: var(--text-gray);
-            font-size: 0.9rem;
-            font-weight: 600;
+            color: #ccc;
+            font-weight: bold;
         }
 
-        select, input[type="checkbox"] {
+        select, button {
             width: 100%;
             padding: 12px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid #333;
             border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-            outline: none;
-            transition: 0.3s;
-        }
-
-        select:focus {
-            border-color: var(--primary-gold);
-            box-shadow: 0 0 8px rgba(255, 204, 0, 0.3);
-        }
-
-        /* Custom Toggle Switch for Gyro */
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #333;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-
-        .switch input { opacity: 0; width: 0; height: 0; }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #333;
-            transition: .4s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: var(--primary-gold);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        /* --- Generate Button --- */
-        .btn-generate {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(45deg, var(--secondary-orange), var(--primary-gold));
             border: none;
-            border-radius: 10px;
+            font-size: 16px;
+        }
+
+        select {
+            background-color: #2c2c2c;
+            color: white;
+            border: 1px solid #444;
+            cursor: pointer;
+        }
+
+        button {
+            background: linear-gradient(45deg, #ff9900, #ffcc00);
             color: black;
             font-weight: bold;
-            font-size: 1.1rem;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            transition: transform 0.2s;
         }
 
-        .btn-generate:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(255, 102, 0, 0.4);
+        button:hover {
+            transform: scale(1.02);
         }
 
-        .btn-generate svg {
-            width: 20px;
-            height: 20px;
-            fill: black;
-        }
-
-        /* --- Results Section --- */
-        .results {
-            margin-top: 30px;
+        #resultArea {
+            margin-top: 25px;
             display: none; /* Hidden by default */
-            animation: fadeIn 0.5s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .result-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-left: 4px solid var(--primary-gold);
+            background-color: #252525;
             padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 0 8px 8px 0;
+            border-radius: 10px;
+            border-left: 4px solid #ff9900;
+        }
+
+        .sens-row {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #333;
         }
 
-        .sens-label {
-            font-size: 0.9rem;
-            color: var(--text-gray);
+        .sens-row:last-child {
+            border-bottom: none;
         }
 
-        .sens-value {
+        .label-sensi {
+            color: #aaa;
+        }
+
+        .value-sensi {
+            color: #ff9900;
             font-weight: bold;
-            color: var(--primary-gold);
-            font-size: 1.1rem;
         }
 
-        .copy-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .copy-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: var(--text-gray);
-            transition: 0.2s;
-        }
-
-        .copy-btn:hover svg {
-            fill: var(--primary-gold);
-        }
-
-        /* --- Footer --- */
-        .footer {
+        .note {
+            font-size: 12px;
+            color: #777;
+            margin-top: 10px;
             text-align: center;
-            margin-top: 20px;
-            font-size: 0.8rem;
-            color: #555;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- Header -->
-    <div class="header">
-        <!-- Custom SVG Logo: Shield/Badge style -->
-        <svg class="logo-svg" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2L3 7V12C3 17.55 6.84 22.74 12 24C17.16 22.74 21 17.55 21 12V7L12 2ZM12 11.99H7.5V10H12V7.5H14V10H18.5V11.99H12V19.5C8.5 18.25 5.5 14.5 5.5 12V8.5L12 5L18.5 8.5V12C18.5 14.5 15.5 18.25 12 19.5V11.99Z"/>
-        </svg>
-        <h1>BGMI Pro Sens</h1>
-        <p class="subtitle">Device Optimized • Premium Settings</p>
+    <h1>🎯 Pro Sensi Gen</h1>
+    
+    <div class="form-group">
+        <label for="deviceSelect">Select Your Device:</label>
+        <select id="deviceSelect">
+            <option value="iphone_13">iPhone 13 / 13 Pro</option>
+            <option value="iphone_14_pro">iPhone 14 Pro Max</option>
+            <option value="redmi_note_10">Redmi Note 10 / 10 Pro</option>
+            <option value="realme_gt_neo_3">Realme GT Neo 3</option>
+            <option value="moto_g54">Moto G54 5G</option>
+            <option value="redmi_9a">Redmi 9A / 10A</option>
+            <option value="samsung_s23">Samsung S23 Ultra</option>
+        </select>
     </div>
 
-    <!-- Input Form -->
-    <div class="input-section">
-        <div class="form-group">
-            <label>Select Device Model</label>
-            <select id="deviceModel">
-                <option value="high_end">High End (iPhone 13+, ROG Phone, iPad)</option>
-                <option value="mid_range">Mid Range (Redmi Note Series, Poco X Series)</option>
-                <option value="budget">Budget (Realme C/Narzo, Redmi 9/10)</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label>Gyroscope Usage</label>
-            <div class="toggle-container">
-                <span>Gyro On</span>
-                <label class="switch">
-                    <input type="checkbox" id="gyroToggle" checked>
-                    <span class="slider"></span>
-                </label>
-            </div>
-        </div>
-
-        <button class="btn-generate" onclick="generateSensitivity()">
-            <!-- Lightning Bolt Icon -->
-            <svg viewBox="0 0 24 24"><path d="M13 2L3 14H12V22L21 10H12V2H13Z"/></svg>
-            Generate Sensitivity
-        </button>
+    <div class="form-group">
+        <label for="playStyle">Your Play Style:</label>
+        <select id="playStyle">
+            <option value="aggressive">Aggressive (Flicker)</option>
+            <option value="passive">Passive (Dragger)</option>
+            <option value="balanced">Balanced</option>
+        </select>
     </div>
 
-    <!-- Results Display -->
-    <div class="results" id="resultsArea">
-        <h3 style="margin-bottom:15px; color:white;">Your Optimized Settings</h3>
+    <button onclick="generateSensi()">Generate Real Sensitivity</button>
+
+    <div id="resultArea">
+        <h3 style="margin-top:0; color:white;">Your Settings:</h3>
+        <div class="sens-row"><span class="label-sensi">General:</span> <span class="value-sensi" id="out_general">0</span></div>
+        <div class="sens-row"><span class="label-sensi">Camera (TPP):</span> <span class="value-sensi" id="out_camera">0</span></div>
+        <div class="sens-row"><span class="label-sensi">Red Dot:</span> <span class="value-sensi" id="out_red_dot">0</span></div>
+        <div class="sens-row"><span class="label-sensi">Scope 2x:</span> <span class="value-sensi" id="out_scope_2x">0</span></div>
+        <div class="sens-row"><span class="label-sensi">Scope 3x:</span> <span class="value-sensi" id="out_scope_3x">0</span></div>
+        <div class="sens-row" style="background:#333; padding:5px; border-radius:5px;"><span class="label-sensi">Gyro Multiplier:</span> <span class="value-sensi" id="out_gyro">0</span></div>
         
-        <!-- Camera Sensitivity -->
-        <div class="result-card">
-            <span class="sens-label">Camera (Free Look)</span>
-            <div>
-                <span class="sens-value" id="res-freeLook">--</span>
-                <button class="copy-btn" onclick="copyValue('res-freeLook')">
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="result-card">
-            <span class="sens-label">Camera (No Scope)</span>
-            <div>
-                <span class="sens-value" id="res-noScope">--</span>
-                <button class="copy-btn" onclick="copyValue('res-noScope')">
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- ADS Sensitivity -->
-        <div class="result-card">
-            <span class="sens-label">ADS (Red Dot)</span>
-            <div>
-                <span class="sens-value" id="res-redDot">--</span>
-                <button class="copy-btn" onclick="copyValue('res-redDot')">
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="result-card">
-            <span class="sens-label">ADS (2x Scope)</span>
-            <div>
-                <span class="sens-value" id="res-2x">--</span>
-                <button class="copy-btn" onclick="copyValue('res-2x')">
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="result-card">
-            <span class="sens-label">ADS (4x Scope)</span>
-            <div>
-                <span class="sens-value" id="res-4x">--</span>
-                <button class="copy-btn" onclick="copyValue('res-4x')">
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                </button>
-            </div>
-        </div>
-
-        <!-- Gyro Sensitivity -->
-        <div class="result-card" id="gyroSection">
-            <span class="sens-label">Gyro (General)</span>
-            <div>
-                <span class="sens-value" id="res-gyroGen">--</span>
-                <button class="copy-btn" onclick="copyValue('res-gyroGen')">
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                </button>
-            </div>
-        </div>
-
-        <div class="result-card" id="gyroSection2">
-            <span class="sens-label">Gyro (Red Dot)</span>
-            <div>
-                <span class="sens-value" id="res-gyroRed">--</span>
-                <button class="copy-btn" onclick="copyValue('res-gyroRed')">
-                    <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        Designed for BGMI Players • NoTrack AI
+        <p class="note">*Settings are generated based on device touch sampling rate.</p>
     </div>
 </div>
 
 <script>
-    // Logic Database
-    const sensData = {
-        high_end: {
-            camera: { freeLook: 120, noScope: 60 },
-            ads: { redDot: 55, scope2x: 45, scope4x: 35 },
-            gyro: { general: 300, redDot: 300, scope2x: 250, scope4x: 150 }
-        },
-        mid_range: {
-            camera: { freeLook: 100, noScope: 50 },
-            ads: { redDot: 45, scope2x: 35, scope4x: 25 },
-            gyro: { general: 250, redDot: 250, scope2x: 200, scope4x: 120 }
-        },
-        budget: {
-            camera: { freeLook: 80, noScope: 40 },
-            ads: { redDot: 35, scope2x: 25, scope4x: 15 },
-            gyro: { general: 200, redDot: 200, scope2x: 150, scope4x: 100 }
-        }
+    // 1. The Database of Devices with Specific Characteristics
+    const deviceDatabase = {
+        // High End - Fast Touch, Needs Lower Sens for Stability
+        'iphone_13': { category: 'high', offset: 5, gyroBase: 320 },
+        'iphone_14_pro': { category: 'high', offset: 8, gyroBase: 350 },
+        'samsung_s23': { category: 'high', offset: 6, gyroBase: 330 },
+        
+        // Mid Range - Balanced
+        'redmi_note_10': { category: 'mid', offset: 15, gyroBase: 380 },
+        'realme_gt_neo_3': { category: 'mid', offset: 12, gyroBase: 370 },
+        'moto_g54': { category: 'mid', offset: 18, gyroBase: 390 },
+        
+        // Low End - Slow Touch, Needs Higher Sens
+        'redmi_9a': { category: 'low', offset: 25, gyroBase: 420 }
     };
 
-    function generateSensitivity() {
-        const device = document.getElementById('deviceModel').value;
-        const isGyro = document.getElementById('gyroToggle').checked;
+    function generateSensi() {
+        // Get User Inputs
+        const deviceId = document.getElementById('deviceSelect').value;
+        const style = document.getElementById('playStyle').value;
         
-        // Get Base Data
-        let data = sensData[device];
+        // Run Logic
+        const result = getRealSensitivity(deviceId, style);
         
-        // Update UI Values
-        document.getElementById('res-freeLook').innerText = data.camera.freeLook;
-        document.getElementById('res-noScope').innerText = data.camera.noScope;
-        document.getElementById('res-redDot').innerText = data.ads.redDot;
-        document.getElementById('res-2x').innerText = data.ads.scope2x;
-        document.getElementById('res-4x').innerText = data.ads.scope4x;
-        
-        // Handle Gyro Visibility
-        const gyroSec1 = document.getElementById('gyroSection');
-        const gyroSec2 = document.getElementById('gyroSection2');
-        
-        if(isGyro) {
-            gyroSec1.style.display = 'flex';
-            gyroSec2.style.display = 'flex';
-            document.getElementById('res-gyroGen').innerText = data.gyro.general;
-            document.getElementById('res-gyroRed').innerText = data.gyro.redDot;
-        } else {
-            gyroSec1.style.display = 'none';
-            gyroSec2.style.display = 'none';
-        }
-
-        // Show Results with Animation
-        const resultsArea = document.getElementById('resultsArea');
-        resultsArea.style.display = 'block';
-        
-        // Scroll to results
-        resultsArea.scrollIntoView({behavior: "smooth"});
+        // Display Results
+        document.getElementById('resultArea').style.display = 'block';
+        document.getElementById('out_general').innerText = result.general;
+        document.getElementById('out_camera').innerText = result.camera;
+        document.getElementById('out_red_dot').innerText = result.red_dot;
+        document.getElementById('out_scope_2x').innerText = result.scope_2x;
+        document.getElementById('out_scope_3x').innerText = result.scope_3x;
+        document.getElementById('out_gyro').innerText = result.gyro_multiplier;
     }
 
-    function copyValue(elementId) {
-        const text = document.getElementById(elementId).innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert("Copied: " + text);
-        });
+    function getRealSensitivity(deviceId, playStyle) {
+        let deviceData = deviceDatabase[deviceId] || { category: 'mid', offset: 15, gyroBase: 380 };
+        
+        let baseGeneral = 0;
+        let baseCamera = 0;
+        let baseRedDot = 0;
+        let baseScope2x = 0;
+        let baseScope3x = 0;
+
+        // Base values based on hardware category
+        if (deviceData.category === 'high') {
+            baseGeneral = 50; baseCamera = 45; baseRedDot = 40; baseScope2x = 35; baseScope3x = 30;
+        } else if (deviceData.category === 'mid') {
+            baseGeneral = 65; baseCamera = 60; baseRedDot = 55; baseScope2x = 50; baseScope3x = 45;
+        } else { 
+            baseGeneral = 80; baseCamera = 75; baseRedDot = 70; baseScope2x = 65; baseScope3x = 60;
+        }
+
+        // Apply Device-Specific Offset
+        baseGeneral += deviceData.offset;
+        baseCamera += deviceData.offset;
+        baseRedDot += deviceData.offset;
+        baseScope2x += deviceData.offset;
+        baseScope3x += deviceData.offset;
+
+        // Adjust for Playstyle
+        if (playStyle === 'aggressive') {
+            baseGeneral += 10; baseCamera += 10;
+        } else if (playStyle === 'passive') {
+            baseGeneral -= 5; baseCamera -= 5;
+        }
+
+        return {
+            general: Math.min(100, Math.max(10, baseGeneral)),
+            camera: Math.min(100, Math.max(10, baseCamera)),
+            red_dot: Math.min(100, Math.max(10, baseRedDot)),
+            scope_2x: Math.min(100, Math.max(10, baseScope2x)),
+            scope_3x: Math.min(100, Math.max(10, baseScope3x)),
+            gyro_multiplier: deviceData.gyroBase + (playStyle === 'aggressive' ? 20 : (playStyle === 'passive' ? -10 : 0))
+        };
     }
 </script>
 
